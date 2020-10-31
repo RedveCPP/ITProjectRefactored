@@ -168,7 +168,7 @@ void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 				window.draw(urbanBackground);
 				sf::RectangleShape rec;
 				rec.setPosition(sf::Vector2f(0, 0));
-				rec.setSize(sf::Vector2f(window.getSize().x,window.getSize().y));
+				rec.setSize(sf::Vector2f(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y)));
 				rec.setFillColor(recColor);
 				window.draw(rec);
 				window.draw(instructions);

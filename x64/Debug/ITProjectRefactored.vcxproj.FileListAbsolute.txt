@@ -1,1 +1,0 @@
-C:\programy\c++\Projekty\ITProjectRefactored\ITProjectRefactored\x64\Debug\ITProjectRefactored.vcxproj.CopyComplete

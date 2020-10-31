@@ -9,16 +9,15 @@ private:
 	Vec2 GetCenter();
 public:
 	Rectangle() = default;
-	Rectangle(Vec2& p1, Vec2& p2, int index);
+	Rectangle(Vec2 p1, Vec2 p2, int index);
 	virtual void Draw(sf::RenderWindow& window);
 	virtual ~Rectangle() { fillColor = deleteColor; }
 };
 
-Rectangle::Rectangle(Vec2& p1, Vec2& p2, int index)
+Rectangle::Rectangle(Vec2 p1, Vec2 p2, int index)
 {
 	corners[0] = p1;
 	corners[1] = p2;
-	
 	shapeIndex = index;
 }
 

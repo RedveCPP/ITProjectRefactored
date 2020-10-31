@@ -50,7 +50,7 @@ void AddANewShape(Shape** arrayPtr, int arraySize)
 		int x[2];
 		int y[2];
 		std::cin >> x[0] >> y[0] >> x[1] >> y[1];
-		arrayPtr[freeShapeIndex] = new Rectangle(Vec2(x[0], y[0]), Vec2(x[1], y[1]));
+		arrayPtr[freeShapeIndex] = new Rectangle(Vec2(x[0], y[0]), Vec2(x[1], y[1]),freeShapeIndex);
 	}
 	break;
 	default:

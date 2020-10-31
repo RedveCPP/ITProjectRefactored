@@ -2,6 +2,8 @@
 #include "Circle.hpp"
 #include "Triangle.hpp"
 #include "Square.hpp"
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Image.hpp>
 
 int GetFirstFreeField(Shape** arrayPtr, size_t arraySize)
 {
@@ -13,50 +15,62 @@ int GetFirstFreeField(Shape** arrayPtr, size_t arraySize)
 void AddANewShape(Shape** arrayPtr, size_t arraySize)
 {
 	system("cls");
-	unsigned short int userDecision = 0;
+	short int userDecision = 0;
 	int freeShapeIndex = GetFirstFreeField(arrayPtr, arraySize);
 	if (freeShapeIndex < 0)
 	{
 		std::cout << "There is no free space" << std::endl;
 		return;
 	}
-	std::cout << "Which shape do you want to add?" << std::endl <<
-		"1. Triangle" << std::endl <<
-		"2. Circle" << std::endl <<
-		"3. Rectangle" << std::endl;
-	std::cin >> userDecision;
-	switch (userDecision)
+
+	while(userDecision!=1&&userDecision!=2&&userDecision!=3&&userDecision!=4)
 	{
-	case 1:
-	{
-		std::cout << "Enter 3 points, for ex. 200 200 250 200 250 300" << std::endl;
-		int x[3];
-		int y[3];
-		std::cin >> x[0] >> y[0] >> x[1] >> y[1] >> x[2] >> y[2];
-		arrayPtr[freeShapeIndex] = new Triangle(Vec2(x[0], y[0]), Vec2(x[1], y[1]), Vec2(x[2], y[2]), freeShapeIndex);
-	}
-	break;
-	case 2:
-	{
-		std::cout << "Enter center point and radius, for ex. 400 300 50" << std::endl;
-		int x, y, r;
-		std::cin >> x >> y >> r;
-		arrayPtr[freeShapeIndex] = new Circle(Vec2(x, y), r, freeShapeIndex);
-	}
-	break;
-	case 3:
-	{
-		std::cout << "Enter 2 points (x,y) that will be corners. for ex 400 300 5 15" << std::endl;
-		int x1, x2;
-		int y1, y2;
-		std::cin >> x1 >> y1 >> x2 >> y2;
-		// 8 FUCKING HOURS WITH RECTANGLE CLASS BUG, AND THE FUCKING PROBLEM WAS FUCKING NAME THAT DONT REPEAT IN ENTIRE FUCKING SOLUTION
-		arrayPtr[freeShapeIndex] = new Square(Vec2(x1, y1), Vec2(x2, y2), freeShapeIndex);
-	}
-	break;
-	default:
-		std::cout << "Choose another option" << std::endl;
+		system("cls");
+		std::cout << "Which shape do you want to add?" << std::endl <<
+			"1. Triangle" << std::endl <<
+			"2. Circle" << std::endl <<
+			"3. Rectangle" << std::endl;
+		std::cin >> userDecision;
+		switch (userDecision)
+		{
+		case 1:
+		{
+			std::cout << "Enter 3 points, for ex. 200 200 250 200 250 300" << std::endl;
+			int x[3];
+			int y[3];
+			std::cin >> x[0] >> y[0] >> x[1] >> y[1] >> x[2] >> y[2];
+			arrayPtr[freeShapeIndex] = new Triangle(Vec2(x[0], y[0]), Vec2(x[1], y[1]), Vec2(x[2], y[2]), freeShapeIndex);
+			break;
+		}
 		break;
+		case 2:
+		{
+			std::cout << "Enter center point and radius, for ex. 400 300 50" << std::endl;
+			int x, y, r;
+			std::cin >> x >> y >> r;
+			arrayPtr[freeShapeIndex] = new Circle(Vec2(x, y), r, freeShapeIndex);
+			break;
+		}
+		break;
+		case 3:
+		{
+			{
+				std::cout << "Enter 2 points (x,y) that will be corners. for ex 400 300 5 15" << std::endl;
+				int x1, x2;
+				int y1, y2;
+				std::cin >> x1 >> y1 >> x2 >> y2;
+				// 8 FUCKING HOURS WITH RECTANGLE CLASS BUG, AND THE FUCKING PROBLEM WAS FUCKING NAME THAT DONT REPEAT IN ENTIRE FUCKING SOLUTION
+				arrayPtr[freeShapeIndex] = new Square(Vec2(x1, y1), Vec2(x2, y2), freeShapeIndex);
+			}
+			break;
+		}
+		break;
+		case 4:
+			break;
+		default:
+			std::cout << "Choose another option" << std::endl;
+			continue;
+		}
 	}
 }
 
@@ -98,6 +112,7 @@ void SetTextOnScreen(sf::RenderWindow& window)
 #include <SFML/Audio.hpp>
 #include <chrono>
 #include <random>
+#include <cmath>
 void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 {
 	sf::Text instructions;
@@ -110,7 +125,6 @@ void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 	instructions.setOutlineThickness(2);
 	instructions.setOutlineColor(sf::Color::White);
 	instructions.setPosition(10, 10);
-
 	sf::Music music;
 	if (!music.openFromFile("music.ogg"))	// 31s
 	{
@@ -129,9 +143,7 @@ void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 
 		sf::Sprite graph;
 		graph.setTexture(graphText);
-		graph.setPosition(100, 100);
-		graph.setScale(sf::Vector2f(static_cast<float>(window.getSize().x/510), static_cast<float>(window.getSize().y / 360)));
-
+		graph.setScale(sf::Vector2f(static_cast<float>(1.0 * window.getSize().x / 675), static_cast<float>(1.0 * window.getSize().y / 375)));
 		while (std::chrono::duration_cast<std::chrono::seconds> (end - begin).count() <= 31)
 		{
 			end = std::chrono::steady_clock::now();
@@ -146,7 +158,7 @@ void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 				engine.seed(seed);
 				int x = distributor(engine);
 				int y = distributor(engine);
-				graph.setPosition(static_cast<float>(100 + x), static_cast<float>(100 + y));
+				graph.setPosition(static_cast<float>(0.1 * window.getSize().x + x), static_cast<float>(0.1 * window.getSize().y + y + 20));
 				sf::Color recColor = sf::Color(255, 0, 0);
 				window.clear(recColor);
 				window.draw(instructions);
@@ -175,11 +187,10 @@ void SetWindowAndConsolePosition(sf::RenderWindow& window)
 {
 	const unsigned int screenSizeX{ sf::VideoMode::getDesktopMode().width };
 	const unsigned int screenSizeY{ sf::VideoMode::getDesktopMode().height };
-	
-	int x =  screenSizeX/2-50;
-	int y =  screenSizeY/2;
-	window.create(sf::VideoMode(x, y),"IT works");
+	int x = screenSizeX / 2;
+	int y = screenSizeY / 2;
+	window.create(sf::VideoMode(x, y), "IT works");
 	window.setPosition(sf::Vector2i(5, 5));
 	HWND consoleWindow = GetConsoleWindow();
-	SetWindowPos(consoleWindow, 0, x+10, 5, screenSizeX-5-(x+10), y, SWP_NOSIZE | SWP_NOZORDER);
+	SetWindowPos(consoleWindow, 0, x + 10, 5, screenSizeX - 5 - (x + 5), y, SWP_SHOWWINDOW);
 }

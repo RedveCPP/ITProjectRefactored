@@ -5,8 +5,13 @@
 
 int main()
 {
+	constexpr int screenSizeX{ 1024 };
+	constexpr int screenSizeY{ 768 };
 	Shape* shapeArray[20]{ nullptr };
-	sf::RenderWindow window(sf::VideoMode(800, 600), "IT Project");
+	sf::RenderWindow window(sf::VideoMode(640, 480), "IT Project");
+	window.setPosition(sf::Vector2i(5,5));
+	HWND consoleWindow = GetConsoleWindow();
+	SetWindowPos(consoleWindow, 0, 650, 5, 369, 480, SWP_NOSIZE | SWP_NOZORDER);
 	sf::Event event;
 	sf::Text instruction;
 	while (window.isOpen())

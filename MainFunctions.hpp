@@ -1,7 +1,7 @@
 #pragma once
-#include "Rectangle.hpp"
 #include "Circle.hpp"
 #include "Triangle.hpp"
+#include "Square.hpp"
 
 int GetFirstFreeField(Shape** arrayPtr, int arraySize)
 {
@@ -47,10 +47,11 @@ void AddANewShape(Shape** arrayPtr, int arraySize)
 	case 3:
 	{
 		std::cout << "Enter 2 points (x,y) that will be corners. for ex 400 300 5 15" << std::endl;
-		int x[2];
-		int y[2];
-		std::cin >> x[0] >> y[0] >> x[1] >> y[1];
-		arrayPtr[freeShapeIndex] = new Rectangle(Vec2(x[0], y[0]), Vec2(x[1], y[1]),freeShapeIndex);
+		int x1, x2;
+		int y1, y2;
+		std::cin >> x1 >> y1 >> x2 >> y2;
+		// 8 FUCKING HOURS WITH RECTANGLE CLASS BUG, AND THE FUCKING PROBLEM WAS FUCKING NAME THAT DONT REPEAT IN ENTIRE FUCKING SOLUTION
+		arrayPtr[freeShapeIndex] = new Square(Vec2(x1, y1), Vec2(x2, y2), freeShapeIndex);
 	}
 	break;
 	default:
@@ -94,6 +95,70 @@ void SetTextOnScreen(sf::RenderWindow& window)
 	window.draw(instructions);
 }
 
+#include <SFML/Audio.hpp>
+#include <chrono>
+#include <random>
+void EasterEgg(sf::RenderWindow& window, sf::Event& event)
+{
+	sf::Text instructions;
+	sf::Font font;
+	if (!font.loadFromFile("Arial.ttf")) { throw("Couldn't load font"); }
+	instructions.setFillColor(sf::Color::Black);
+	instructions.setFont(font);
+	instructions.setCharacterSize(25);
+	instructions.setString("Press N to break");
+	instructions.setOutlineThickness(2);
+	instructions.setOutlineColor(sf::Color::White);
+	instructions.setPosition(10, 10);
+
+	sf::Music music;
+	if (!music.openFromFile("music.ogg"))	// 31s
+	{
+		std::cerr << "Error with loading music file" << std::endl;
+		return;
+	}
+	system("cls");
+	sf::Texture graphText;
+	if (!graphText.loadFromFile("wykres.png")) {}
+	else
+	{
+		music.setVolume(70);
+		music.play();
+		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+		std::chrono::steady_clock::time_point end;
+
+		sf::Sprite graph;
+		graph.setTexture(graphText);
+		graph.setPosition(100, 100);
+		graph.setScale(sf::Vector2f(1.3f, 1.3f));
+
+		while (std::chrono::duration_cast<std::chrono::seconds> (end - begin).count() <= 31)
+		{
+			end = std::chrono::steady_clock::now();
+			if (std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count() >= 6500)
+			{
+				music.setVolume(100);
+				static int seed = 0;
+				seed++;
+				std::mt19937 engine;
+				const short unsigned int range{ 7 };
+				std::uniform_int_distribution<int> distributor(-range, range);
+				engine.seed(seed);
+				int x = distributor(engine);
+				int y = distributor(engine);
+				graph.setPosition(static_cast<float>(100 + x), static_cast<float>(100 + y));
+				sf::Color recColor = sf::Color(255, 0, 0);
+				window.clear(recColor);
+				window.draw(instructions);
+				window.draw(graph);
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) { return; }
+			while (window.pollEvent(event)) {}
+			window.display();
+		}
+	}
+}
+
 void MenuEvents(sf::Event& event, Shape** shapeArray, int arraySize, sf::RenderWindow& window, sf::Text& text)
 {
 	if (event.type == event.Closed) { window.close(); }
@@ -102,6 +167,6 @@ void MenuEvents(sf::Event& event, Shape** shapeArray, int arraySize, sf::RenderW
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) { AddANewShape(shapeArray, arraySize); }
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) { DeleteAShape(shapeArray, arraySize); }
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) { window.close(); }
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) { EasterEgg(window, event); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) { EasterEgg(window, event); }
 	}
 }

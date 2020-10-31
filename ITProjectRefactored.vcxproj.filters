@@ -24,11 +24,11 @@
     <ClInclude Include="Circle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rectangle.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MainFunctions.hpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Square.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

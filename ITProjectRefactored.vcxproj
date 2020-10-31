@@ -141,8 +141,8 @@
   <ItemGroup>
     <ClInclude Include="Circle.hpp" />
     <ClInclude Include="MainFunctions.hpp" />
-    <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="Shape.hpp" />
+    <ClInclude Include="Square.hpp" />
     <ClInclude Include="Triangle.hpp" />
   </ItemGroup>
   <ItemGroup>

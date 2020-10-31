@@ -133,6 +133,8 @@ void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 	}
 	system("cls");
 	sf::Texture graphText;
+	sf::Texture urbanTxt;
+	if (!urbanTxt.loadFromFile("urban.jpg")) {}
 	if (!graphText.loadFromFile("wykres.png")) {}
 	else
 	{
@@ -140,10 +142,13 @@ void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 		music.play();
 		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 		std::chrono::steady_clock::time_point end;
-
 		sf::Sprite graph;
+		sf::Sprite urbanBackground;
 		graph.setTexture(graphText);
 		graph.setScale(sf::Vector2f(static_cast<float>(1.0 * window.getSize().x / 675), static_cast<float>(1.0 * window.getSize().y / 375)));
+		urbanBackground.setTexture(urbanTxt);
+		urbanBackground.setScale(static_cast<float>(1.0*window.getSize().x / 960), static_cast<float>(1.0*window.getSize().y / 847));
+		urbanBackground.setPosition(sf::Vector2f(0, 0));
 		while (std::chrono::duration_cast<std::chrono::seconds> (end - begin).count() <= 31)
 		{
 			end = std::chrono::steady_clock::now();
@@ -159,11 +164,17 @@ void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 				int x = distributor(engine);
 				int y = distributor(engine);
 				graph.setPosition(static_cast<float>(0.1 * window.getSize().x + x), static_cast<float>(0.1 * window.getSize().y + y + 20));
-				sf::Color recColor = sf::Color(255, 0, 0);
-				window.clear(recColor);
+				sf::Color recColor = sf::Color(255, 0, 0,200);
+				window.draw(urbanBackground);
+				sf::RectangleShape rec;
+				rec.setPosition(sf::Vector2f(0, 0));
+				rec.setSize(sf::Vector2f(window.getSize().x,window.getSize().y));
+				rec.setFillColor(recColor);
+				window.draw(rec);
 				window.draw(instructions);
 				window.draw(graph);
 			}
+			
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) { return; }
 			while (window.pollEvent(event)) {}
 			window.display();

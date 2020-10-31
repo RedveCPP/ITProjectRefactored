@@ -1,1 +1,25 @@
-﻿  ITProjectRefactored.vcxproj -> C:\programy\c++\Projekty\ITProjectRefactored\x64\Release\ITProjectRefactored.exe
+﻿  Source.cpp
+C:\programy\c++\Projekty\ITProjectRefactored\ITProjectRefactored\MainFunctions.hpp(172,65): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\programy\c++\Projekty\ITProjectRefactored\ITProjectRefactored\MainFunctions.hpp(172,46): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+          and
+          [
+              T=float
+          ]
+  Generating code
+  3 of 169 functions ( 1.8%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    2 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  ITProjectRefactored.vcxproj -> C:\programy\c++\Projekty\ITProjectRefactored\x64\Release\ITProjectRefactored.exe

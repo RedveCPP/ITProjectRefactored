@@ -9,7 +9,6 @@ int GetFirstFreeField(Shape** arrayPtr, int arraySize)
 	return -1;
 }
 
-class Rectangle;
 #include <Windows.h>
 void AddANewShape(Shape** arrayPtr, int arraySize)
 {
@@ -46,13 +45,13 @@ void AddANewShape(Shape** arrayPtr, int arraySize)
 	}
 	break;
 	case 3:
-	
+	{
 		std::cout << "Enter 2 points (x,y) that will be corners. for ex 400 300 5 15" << std::endl;
 		int x[2];
 		int y[2];
 		std::cin >> x[0] >> y[0] >> x[1] >> y[1];
-		arrayPtr[freeShapeIndex] = new Rectangle(Vec2(x[0],y[0]),Vec2(x[1], y[1]));
-	
+		arrayPtr[freeShapeIndex] = new Rectangle(Vec2(x[0], y[0]), Vec2(x[1], y[1]));
+	}
 	break;
 	default:
 		std::cout << "Choose another option" << std::endl;
@@ -105,5 +104,4 @@ void MenuEvents(sf::Event& event, Shape** shapeArray, int arraySize, sf::RenderW
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) { window.close(); }
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) { EasterEgg(window, event); }
 	}
-	SetTextOnScreen(window);
 }

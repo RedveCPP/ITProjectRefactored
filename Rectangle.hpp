@@ -1,18 +1,19 @@
 #pragma once
 #include "Shape.hpp"
-
+#include <array>
 class Rectangle :public virtual Shape
 {
 private:
-	Vec2 corners[2];
+	std::array<Vec2, 2>corners;
 	Vec2 GetCenter();
 public:
-	Rectangle(const Vec2& p1, const Vec2& p2, int index);
+	Rectangle() = default;
+	Rectangle(Vec2& p1, Vec2& p2, int index);
 	virtual void Draw(sf::RenderWindow& window);
-	~Rectangle() { fillColor = deleteColor; }
+	virtual ~Rectangle() { fillColor = deleteColor; }
 };
 
-Rectangle::Rectangle(const Vec2& p1, const Vec2& p2, int index)
+Rectangle::Rectangle(Vec2& p1, Vec2& p2, int index)
 {
 	corners[0] = p1;
 	corners[1] = p2;
@@ -36,4 +37,5 @@ void Rectangle::Draw(sf::RenderWindow& window)
 	rectangle.setSize(sf::Vector2f(static_cast<float>(corners[1].x - corners[0].x), static_cast<float>(corners[1].y - corners[0].y)));
 	window.draw(rectangle);
 	PrintIndex(window, GetCenter());
+	//chuj
 }

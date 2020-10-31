@@ -5,24 +5,25 @@
 
 int main()
 {
-	constexpr int screenSizeX{ 1024 };
-	constexpr int screenSizeY{ 768 };
-	Shape* shapeArray[20]{ nullptr };
+	std::cout << "How big shape array do you want?"<<std::endl;
+	size_t sizeOfArray;
+	std::cin >> sizeOfArray;
+	system("cls");
 	sf::RenderWindow window(sf::VideoMode(640, 480), "IT Project");
-	window.setPosition(sf::Vector2i(5,5));
-	HWND consoleWindow = GetConsoleWindow();
-	SetWindowPos(consoleWindow, 0, 650, 5, 369, 480, SWP_NOSIZE | SWP_NOZORDER);
+	SetWindowAndConsolePosition(window);
 	sf::Event event;
 	sf::Text instruction;
+	Shape** shapeArray = new Shape * [sizeOfArray] {};
 	while (window.isOpen())
 	{
 		window.clear(sf::Color(46, 46, 46));
 		SetTextOnScreen(window);
-		while (window.pollEvent(event)) { MenuEvents(event, shapeArray, 20, window, instruction); }
-		for (int i = 0; i < 20; ++i) { if (shapeArray[i]) { shapeArray[i]->Draw(window); } }
+		while (window.pollEvent(event)) { MenuEvents(event, shapeArray, sizeOfArray, window, instruction); }
+		for (int i = 0; i < sizeOfArray; ++i) { if (shapeArray[i]) { shapeArray[i]->Draw(window); } }
 		window.draw(instruction);
 		window.display();
 	}
-	for (int i = 0; i < 20; ++i) { delete shapeArray[i]; }
+	for (int i = 0; i < sizeOfArray; ++i) { delete shapeArray[i]; }
+	delete[]shapeArray;
 	return 0;
 }

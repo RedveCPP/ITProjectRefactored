@@ -3,14 +3,14 @@
 #include "Triangle.hpp"
 #include "Square.hpp"
 
-int GetFirstFreeField(Shape** arrayPtr, int arraySize)
+int GetFirstFreeField(Shape** arrayPtr, size_t arraySize)
 {
 	for (int i = 0; i < arraySize; ++i) { if (!arrayPtr[i]) { return i; } }
 	return -1;
 }
 
 #include <Windows.h>
-void AddANewShape(Shape** arrayPtr, int arraySize)
+void AddANewShape(Shape** arrayPtr, size_t arraySize)
 {
 	system("cls");
 	unsigned short int userDecision = 0;
@@ -60,7 +60,7 @@ void AddANewShape(Shape** arrayPtr, int arraySize)
 	}
 }
 
-void DeleteAShape(Shape** arrayPtr, int arraySize)
+void DeleteAShape(Shape** arrayPtr, size_t arraySize)
 {
 	system("cls");
 	short int index = 0;
@@ -130,7 +130,7 @@ void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 		sf::Sprite graph;
 		graph.setTexture(graphText);
 		graph.setPosition(100, 100);
-		graph.setScale(sf::Vector2f(1.3f, 1.3f));
+		graph.setScale(sf::Vector2f(static_cast<float>(window.getSize().x/510), static_cast<float>(window.getSize().y / 360)));
 
 		while (std::chrono::duration_cast<std::chrono::seconds> (end - begin).count() <= 31)
 		{
@@ -159,7 +159,7 @@ void EasterEgg(sf::RenderWindow& window, sf::Event& event)
 	}
 }
 
-void MenuEvents(sf::Event& event, Shape** shapeArray, int arraySize, sf::RenderWindow& window, sf::Text& text)
+void MenuEvents(sf::Event& event, Shape** shapeArray, size_t arraySize, sf::RenderWindow& window, sf::Text& text)
 {
 	if (event.type == event.Closed) { window.close(); }
 	if (event.type == event.KeyPressed)
@@ -169,4 +169,17 @@ void MenuEvents(sf::Event& event, Shape** shapeArray, int arraySize, sf::RenderW
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) { window.close(); }
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) { EasterEgg(window, event); }
 	}
+}
+
+void SetWindowAndConsolePosition(sf::RenderWindow& window)
+{
+	const unsigned int screenSizeX{ sf::VideoMode::getDesktopMode().width };
+	const unsigned int screenSizeY{ sf::VideoMode::getDesktopMode().height };
+	
+	int x =  screenSizeX/2-50;
+	int y =  screenSizeY/2;
+	window.create(sf::VideoMode(x, y),"IT works");
+	window.setPosition(sf::Vector2i(5, 5));
+	HWND consoleWindow = GetConsoleWindow();
+	SetWindowPos(consoleWindow, 0, x+10, 5, screenSizeX-5-(x+10), y, SWP_NOSIZE | SWP_NOZORDER);
 }
